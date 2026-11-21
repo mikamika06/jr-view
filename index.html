@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex,nofollow">
+<title>Вакансії</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{
+  --bg:var(--tg-theme-secondary-bg-color,#f2f2f7);
+  --card:var(--tg-theme-section-bg-color,var(--tg-theme-bg-color,#fff));
+  --ink:var(--tg-theme-text-color,#111);
+  --hint:var(--tg-theme-hint-color,#8e8e93);
+  --link:var(--tg-theme-link-color,#2481cc);
+  --btn:var(--tg-theme-button-color,#2481cc);
+  --btn-ink:var(--tg-theme-button-text-color,#fff);
+  --sep:var(--tg-theme-section-separator-color,rgba(127,127,127,.18));
+  --head:var(--tg-theme-section-header-text-color,var(--hint));
+  --apply:#2fa84f;--stretch:#8b5cf6;--backup:#2f7fe0;--watch:#e08a00;--skip:#8e8e93;--warn:#d9822b;
+}
+@media (prefers-color-scheme:dark){:root:not(.tg){
+  --bg:#000;--card:#1c1c1e;--ink:#f2f2f7;--hint:#8e8e93;--link:#64a8f0;--btn:#2f8ae0;--sep:rgba(255,255,255,.1)}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink)}
+body{font:15px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+main{max-width:680px;margin:0 auto;padding:12px 12px 0}
+header{padding:8px 4px 12px}
+h1{font-size:26px;line-height:1.15;margin:0;font-weight:700;letter-spacing:-.01em}
+.sub{color:var(--hint);font-size:13px;margin-top:4px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin:14px 0 2px;background:var(--sep);border-radius:10px;overflow:hidden}
+.tile{background:var(--card);padding:10px 12px;border:0;color:inherit;text-align:left;font:inherit;cursor:pointer}
+.tile b{display:block;font-size:24px;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile span{font-size:12px;color:var(--hint)}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);margin:0 -12px;padding:8px 12px 0}
+.find{position:relative;margin:0 0 2px}
+.find input{width:100%;border:0;border-radius:10px;background:var(--card);color:var(--ink);font:inherit;font-size:16px;padding:9px 36px 9px 12px;outline:none;-webkit-appearance:none;appearance:none}
+.find input::placeholder{color:var(--hint)}
+.find input::-webkit-search-cancel-button{display:none}
+.find button{position:absolute;right:4px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--hint);font:inherit;font-size:20px;line-height:1;padding:6px 8px;cursor:pointer}
+.find button[hidden]{display:none}
+.tabs{display:flex;gap:18px;overflow-x:auto;margin:0 -12px;padding:6px 16px 0;border-bottom:1px solid var(--sep);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;border:0;background:none;padding:6px 0 9px;font:inherit;font-size:15px;color:var(--hint);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab small{margin-left:5px;font-variant-numeric:tabular-nums}
+.tab[aria-selected=true]{color:var(--ink);font-weight:600;border-bottom-color:var(--btn)}
+.hintline{color:var(--hint);font-size:13px;margin:10px 4px 8px}
+.card{background:var(--card);border-radius:10px;padding:14px;margin:0 0 8px;overflow-wrap:anywhere;border-left:3px solid transparent}
+.d-apply_now{border-left-color:var(--apply)}.d-stretch{border-left-color:var(--stretch)}.d-backup{border-left-color:var(--backup)}.d-watch{border-left-color:var(--watch)}
+.row{display:flex;gap:12px;align-items:flex-start}
+.row>.main{flex:1;min-width:0}
+.kicker{font-size:12px;color:var(--hint);margin-bottom:2px}
+.title{font-size:16px;font-weight:600;line-height:1.3;margin:0}
+.co{font-size:14px;color:var(--hint);margin-top:2px}
+.score{flex:0 0 auto;display:flex;text-align:center;font-variant-numeric:tabular-nums}
+.score div{padding:0 0 0 12px;min-width:40px}
+.score div+div{border-left:1px solid var(--sep);margin-left:12px}
+.score b{display:block;font-size:22px;line-height:1.05}
+.score span{display:block;font-size:10px;color:var(--hint);text-transform:uppercase;letter-spacing:.04em}
+.d-apply_now .score b{color:var(--apply)}.d-stretch .score b{color:var(--stretch)}.d-backup .score b{color:var(--backup)}.d-watch .score b{color:var(--watch)}.d-skip .score b{color:var(--skip)}
+.why{margin:10px 0 0;font-size:14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.open .why{-webkit-line-clamp:unset;display:block}
+.chips{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:8px;font-size:12px;color:var(--hint)}
+.dates{font-size:12px;color:var(--hint);margin-top:4px}
+.quote{margin:4px 0 0;padding-left:10px;border-left:2px solid var(--warn);font-size:13px}
+.roles{margin-top:10px;border-top:1px solid var(--sep);padding-top:8px}
+.roles h4{margin:0 0 4px;font-size:12px;font-weight:600;color:var(--head);text-transform:uppercase;letter-spacing:.03em}
+.role{display:flex;align-items:center;gap:10px;padding:6px 0}
+.role .rt{flex:1;min-width:0;font-size:14px}
+.role .rs{font-size:13px;color:var(--hint);font-variant-numeric:tabular-nums;white-space:nowrap}
+.role button{border:0;background:none;color:var(--link);font:inherit;font-size:14px;padding:4px 0;cursor:pointer;white-space:nowrap}
+.elsewhere{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
+.elsewhere button{border:0;border-radius:8px;background:var(--card);color:var(--link);font:inherit;font-size:14px;padding:8px 12px;cursor:pointer}
+.chip.ok{color:var(--apply)}.chip.warn{color:var(--warn)}.chip.new{color:var(--stretch);font-weight:600}.chip.st{color:var(--ink);font-weight:600}
+.more{display:none;margin-top:12px;border-top:1px solid var(--sep);padding-top:10px;font-size:14px}
+.open .more{display:block}
+.more h4{margin:12px 0 4px;font-size:12px;font-weight:600;color:var(--head);text-transform:uppercase;letter-spacing:.03em}
+.more h4:first-child{margin-top:0}
+.more ul{margin:0;padding-left:18px}.more li{margin:2px 0}
+.more p{margin:0}
+.facts{color:var(--hint);font-size:13px}
+.actions{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px}
+.go{border:0;border-radius:8px;padding:10px 16px;font:inherit;font-weight:600;background:var(--btn);color:var(--btn-ink);cursor:pointer}
+.toggle{border:0;background:none;color:var(--link);font:inherit;font-size:14px;padding:10px 0;cursor:pointer}
+.src{background:var(--card);border-radius:10px;overflow:hidden}
+.src .r{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:11px 14px;border-bottom:1px solid var(--sep)}
+.src .r:last-child{border-bottom:0}
+.src .n{font-weight:600}.src .v{font-variant-numeric:tabular-nums;text-align:right}
+.src .bar{grid-column:1/-1;height:3px;background:var(--bg)}
+.src .bar i{display:block;height:100%;background:var(--btn)}
+.src .s{grid-column:1/-1;font-size:12px;color:var(--hint)}
+.also{margin-top:6px;font-size:12px;color:var(--hint)}.alink{border:0;background:none;padding:0;font:inherit;color:var(--link);cursor:pointer}
+.empty,.lock{text-align:center;color:var(--hint);padding:48px 16px}
+.lock b{display:block;color:var(--ink);font-size:17px;margin-bottom:6px}
+</style>
+</head>
+<body>
+<main id="app"><div class="lock">Завантаження…</div></main>
+<script>
+(function(){
+var tg=window.Telegram&&Telegram.WebApp?Telegram.WebApp:null;
+var inTg=!!(tg&&tg.initData);
+if(inTg){document.documentElement.classList.add('tg');tg.ready();tg.expand();try{tg.setHeaderColor('secondary_bg_color');tg.setBackgroundColor('secondary_bg_color')}catch(e){}}
+var app=document.getElementById('app');
+var SECT=[['apply_now','Подаватись','обидві оцінки 6+'],['stretch','На виріст','дуже твоє, але шанс нижчий'],['backup','Запасні','шанс є, але не зовсім твоє'],['watch','Стежити','квант і трейдинг'],['skip','Пропуск','не підходить або не з України'],['src','Джерела','звідки беруться вакансії']];
+var TIER={tier1:'Тір 1 · ризик',tier2:'Тір 2 · DS/ML',watch:'стежити',skip:'поза'};
+var ELIG={yes:['з України можна','ok'],unclear:['перевір, чи беруть з України','warn'],no:['не з України','']};
+var TONE={positive:'переважно добрі',mixed:'змішані',negative:'переважно погані',unclear:'неясно'};
+var FLAG={russian_roots:'російське коріння',igaming:'iGaming',token_only_crypto:'лише власний токен',layoffs:'скорочення',sanctions:'санкції',scam_signals:'ознаки шахрайства'};
+var BT={outsourcing:'аутсорс',outstaffing:'аутстаф',agency:'агенція',recruiter:'через рекрутера',unclear:'тип компанії неясний'};
+function key(){var q=new URLSearchParams(location.search).get('k');if(q)return q;var m=location.hash.match(/(?:^#|&)k=([A-Za-z0-9_-]+)/);return m?m[1]:null}
+function b64(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';var b=atob(s),a=new Uint8Array(b.length);for(var i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return a}
+function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
+function lock(t,s){app.innerHTML='';var d=el('div','lock');d.appendChild(el('b',null,t));d.appendChild(document.createTextNode(s));app.appendChild(d)}
+function openUrl(u){if(inTg)tg.openLink(u);else window.open(u,'_blank','noopener')}
+function haptic(){try{inTg&&tg.HapticFeedback.selectionChanged()}catch(e){}}
+var D,cur,q='';
+var SEARCH_KEYS=['t','c','sell','why','cn','src','facts','dates','elx','st'];
+function fold(s){return String(s||'').toLowerCase().replace(/[’ʼ`]/g,"'").replace(/ё/g,'е')}
+function hay(x){
+  if(x._h==null){var parts=SEARCH_KEYS.map(function(k){return x[k]});parts=parts.concat(x.hl||[],x.gaps||[],x.lf||[],(x.flags||[]).map(function(f){return FLAG[f]||f}),[TIER[x.tier]||'',BT[x.bt]||'']);x._h=fold(parts.join(' \n '))}
+  return x._h}
+function match(x){if(!q)return true;var h=hay(x);return q.split(/\s+/).every(function(w){return h.indexOf(w)>=0})}
+function counted(k){return D.items.filter(function(x){return x.d===k&&match(x)}).length}
+function card(x){
+  var c=el('article','card d-'+x.d);
+  var row=el('div','row'),m=el('div','main');
+  m.appendChild(el('div','kicker',(TIER[x.tier]||x.tier)+' · '+x.src));
+  m.appendChild(el('h3','title',x.t));
+  m.appendChild(el('div','co',x.c));
+  if(x.dates)m.appendChild(el('div','dates',x.dates));
+  row.appendChild(m);
+  var sc=el('div','score');
+  [[x.w,'хочу'],[x.ch,'шанс']].forEach(function(p){var d=el('div');d.appendChild(el('b',null,String(p[0])));d.appendChild(el('span',null,p[1]));sc.appendChild(d)});
+  row.appendChild(sc);c.appendChild(row);
+  if(x.why)c.appendChild(el('p','why',x.why));
+  var ch=el('div','chips'),e=ELIG[x.el]||[x.el,''];
+  ch.appendChild(el('span','chip '+e[1],e[0]));
+  if(x.bt&&BT[x.bt])ch.appendChild(el('span','chip warn',BT[x.bt]));
+  (x.flags||[]).forEach(function(f){if(FLAG[f])ch.appendChild(el('span','chip warn',FLAG[f]))});
+  (x.lf||[]).forEach(function(f){ch.appendChild(el('span','chip warn',f))});
+  if(x.rv&&x.rv.tone==='negative')ch.appendChild(el('span','chip warn','погані відгуки працівників'));
+  if(x.nocard)ch.appendChild(el('span','chip warn','компанію ще не перевірено'));
+  if(x.st)ch.appendChild(el('span','chip st',x.st));
+  if(x.new)ch.appendChild(el('span','chip new','нове'));
+  c.appendChild(ch);
+  var mo=el('div','more');
+  function list(h,arr){if(!arr||!arr.length)return;mo.appendChild(el('h4',null,h));var u=el('ul');arr.forEach(function(s){u.appendChild(el('li',null,s))});mo.appendChild(u)}
+  list('Що підкреслити',x.hl);list('Чого бракує',x.gaps);
+  if(x.elx){mo.appendChild(el('h4',null,'Чи можна з України'));mo.appendChild(el('p',null,x.elx))}
+  if(x.sell||x.cn){mo.appendChild(el('h4',null,'Компанія'));mo.appendChild(el('p',null,[x.sell,x.cn].filter(Boolean).join(' ')))}
+  if(x.rv&&x.rv.where!=='none'){mo.appendChild(el('h4',null,'Відгуки працівників'));
+    mo.appendChild(el('p',null,[x.rv.where==='dou'?'DOU':x.rv.where==='glassdoor'?'Glassdoor':'інше',x.rv.count!=null?x.rv.count+' відгуків':'',x.rv.rating?'оцінка '+x.rv.rating:'',TONE[x.rv.tone]||''].filter(Boolean).join(' · ')));
+    (x.rv.red_flags||[]).forEach(function(r){mo.appendChild(el('p','quote',r))})}
+  if(x.cx&&x.cx!=='unclear'){mo.appendChild(el('h4',null,'Як ставляться до кандидатів'));mo.appendChild(el('p',null,x.cx))}
+  if(x.sal&&x.sal.indexOf('unclear')!==0){mo.appendChild(el('h4',null,'Зарплати'));mo.appendChild(el('p',null,x.sal))}
+  var other=(x.flags||[]).filter(function(f){return !FLAG[f]});
+  if(other.length){mo.appendChild(el('h4',null,'Позначки'));mo.appendChild(el('p','facts',other.join(', ').replace(/_/g,' ')))}
+  if(x.facts){mo.appendChild(el('h4',null,'Умови'));mo.appendChild(el('p','facts',x.facts))}
+  c.appendChild(mo);
+  var a=el('div','actions'),tgl=el('button','toggle','Детальніше');
+  tgl.onclick=function(){var o=c.classList.toggle('open');tgl.textContent=o?'Згорнути':'Детальніше';haptic()};
+  a.appendChild(tgl);
+  if(x.u){var b=el('button','go','Відкрити вакансію');b.onclick=function(){openUrl(x.u)};a.appendChild(b)}
+  c.appendChild(a);
+  if(x.also&&x.also.length){var al=el('div','also');al.appendChild(document.createTextNode('Та сама вакансія ще на: '));
+    x.also.forEach(function(o,i){var l=el('button','alink',o.src+(o.rp?' (перепост '+o.co+')':''));l.onclick=function(){openUrl(o.u)};if(i)al.appendChild(document.createTextNode(' · '));al.appendChild(l)});
+    c.appendChild(al)}
+  if(x._more&&x._more.length){var rs=el('div','roles');rs.appendChild(el('h4',null,'Ще ролі в цій компанії'));
+    x._more.forEach(function(y){var r=el('div','role');r.appendChild(el('div','rt',y.t));r.appendChild(el('div','rs',y.w+' / '+y.ch));
+      if(y.u){var b=el('button',null,'Відкрити');b.onclick=function(){openUrl(y.u)};r.appendChild(b)}rs.appendChild(r)});
+    c.appendChild(rs)}
+  return c;
+}
+function sources(box){
+  var max=Math.max.apply(null,D.sources.map(function(s){return s.kept}).concat([1]));
+  var w=el('div','src');
+  D.sources.forEach(function(s){
+    var r=el('div','r');r.appendChild(el('div','n',s.name));
+    r.appendChild(el('div','v',s.good+' підходять'));
+    var bar=el('div','bar'),i=el('i');i.style.width=Math.round(100*s.kept/max)+'%';bar.appendChild(i);r.appendChild(bar);
+    r.appendChild(el('div','s','пройшли фільтр '+s.kept+' · оцінено '+s.scored+' · чекають '+s.waiting));
+    w.appendChild(r)});
+  box.appendChild(w);
+  box.appendChild(el('p','hintline','LinkedIn додається вручну, вставкою списку.'));
+}
+function render(){
+  app.innerHTML='';
+  var h=el('header');h.appendChild(el('h1',null,'Вакансії'));
+  h.appendChild(el('div','sub','оновлено '+D.updated+' · чекають оцінки '+D.waiting+(D.hidden?' · сховано закритих і старих '+D.hidden:'')));
+  var t=el('div','tiles');
+  [['apply_now','Подаватись'],['stretch','На виріст'],['new','Нових за 3 дні']].forEach(function(p){
+    var b=el('button','tile');b.appendChild(el('b',null,String(p[0]==='new'?D.fresh:(D.counts[p[0]]||0))));b.appendChild(el('span',null,p[1]));
+    b.onclick=function(){show(p[0]==='new'?'apply_now':p[0]);haptic()};t.appendChild(b)});
+  h.appendChild(t);app.appendChild(h);
+  var bar=el('div','bar'),f=el('div','find'),inp=el('input'),clr=el('button',null,'×');
+  inp.type='search';inp.placeholder='Пошук: компанія, роль, фрод, Djinni…';inp.setAttribute('enterkeyhint','search');inp.setAttribute('aria-label','Пошук вакансій');inp.autocomplete='off';inp.value=q;
+  clr.type='button';clr.setAttribute('aria-label','Очистити пошук');clr.hidden=!q;
+  inp.oninput=function(){q=fold(inp.value.trim());clr.hidden=!inp.value;recount();show(cur)};
+  inp.onkeydown=function(e){if(e.key==='Enter'){inp.blur()}if(e.key==='Escape'){inp.value='';inp.oninput()}};
+  clr.onclick=function(){inp.value='';inp.oninput();inp.focus();haptic()};
+  f.appendChild(inp);f.appendChild(clr);bar.appendChild(f);
+  var tabs=el('nav','tabs');tabs.setAttribute('role','tablist');
+  SECT.forEach(function(s){
+    var n=s[0]==='src'?null:(D.counts[s[0]]||0);
+    if(n===0&&s[0]!=='apply_now')return;
+    var b=el('button','tab',s[1]);b.setAttribute('role','tab');b.dataset.k=s[0];
+    if(n!=null)b.appendChild(el('small',null,String(n)));
+    b.onclick=function(){show(s[0]);haptic()};tabs.appendChild(b)});
+  bar.appendChild(tabs);app.appendChild(bar);
+  var box=el('section');box.id='list';app.appendChild(box);
+  show(cur||'apply_now');
+}
+function recount(){
+  Array.prototype.forEach.call(document.querySelectorAll('.tab'),function(b){var sm=b.querySelector('small');if(sm&&b.dataset.k!=='src')sm.textContent=String(q?counted(b.dataset.k):(D.counts[b.dataset.k]||0))})}
+function show(k){
+  cur=k;
+  Array.prototype.forEach.call(document.querySelectorAll('.tab'),function(b){var on=b.dataset.k===k;b.setAttribute('aria-selected',on?'true':'false');if(on&&b.scrollIntoView)b.scrollIntoView({block:'nearest',inline:'nearest'})});
+  var box=document.getElementById('list');box.innerHTML='';
+  var s=SECT.filter(function(x){return x[0]===k})[0];
+  box.appendChild(el('p','hintline',s[2]));
+  if(k==='src'){sources(box);return}
+  var items=D.items.filter(function(x){return x.d===k&&match(x)});
+  if(!items.length&&q){
+    var e=el('div','empty','У цій вкладці нічого не знайшлось.'),w=el('div','elsewhere');
+    SECT.forEach(function(s){if(s[0]==='src'||s[0]===k)return;var n=counted(s[0]);if(!n)return;var b=el('button',null,s[1]+' · '+n);b.onclick=function(){show(s[0]);haptic()};w.appendChild(b)});
+    if(w.childNodes.length){e.appendChild(el('div',null,'Є в інших:'));e.appendChild(w)}
+    box.appendChild(e);return}
+  if(!items.length){box.appendChild(el('div','empty','Поки порожньо. Нові вакансії оцінюються щоночі.'));return}
+  var lead={};items.forEach(function(x){x._more=[];if(lead[x.co])lead[x.co]._more.push(x);else lead[x.co]=x});
+  items.forEach(function(x){if(lead[x.co]===x)box.appendChild(card(x))});
+}
+var k=key();
+if(!k){lock('Відкрий через бота','Сторінка відкривається кнопкою «Вакансії» в Telegram.');return}
+fetch('data.bin?'+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.arrayBuffer()}).then(function(buf){
+  var a=new Uint8Array(buf);
+  return crypto.subtle.importKey('raw',b64(k),'AES-GCM',false,['decrypt']).then(function(ck){return crypto.subtle.decrypt({name:'AES-GCM',iv:a.slice(0,12)},ck,a.slice(12))});
+}).then(function(p){D=JSON.parse(new TextDecoder().decode(p));render()}).catch(function(){lock('Не вдалося відкрити','Онови сторінку або відкрий її кнопкою в боті ще раз.')});
+})();
+</script>
+</body>
+</html>
